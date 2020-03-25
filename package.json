@@ -1,6 +1,8 @@
 {
-  "name": "lobster",
-  "private": true,
+  "name": "lobster-logview",
+  "version": "1.0.1",
+  "main": "lib/components/LogView/index.js",
+  "types": "lib/components/LogView/index.d.ts",
   "engines": {
     "node": ">=8.6"
   },
@@ -43,10 +45,19 @@
     "lint:fix": "eslint --ext .js,.jsx --fix .",
     "eslint": "eslint --ext .js,.jsx",
     "debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
-    "generate-tasks": "node generate-tasks.js"
+    "generate-tasks": "node generate-tasks.js",
+    "build-babel": "babel src -d lib"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-flow-strip-types": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.1",
+    "@babel/preset-typescript": "^7.9.0",
     "babel-eslint": "^8.2.6",
+    "babel-plugin-transform-assets": "^1.0.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^5.2.0",
@@ -90,5 +101,25 @@
         "^/evergreen": "/"
       }
     }
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      "@babel/preset-typescript"
+    ],
+    "plugins": [
+      "babel-plugin-transform-class-properties",
+      "@babel/plugin-transform-flow-strip-types",
+      [
+        "babel-plugin-transform-assets",
+        {
+          "extensions": [
+            "css"
+          ],
+          "name": "[name].[ext]?[sha512:hash:base64:7]"
+        }
+      ]
+    ]
   }
 }

@@ -1,8 +1,7 @@
 {
   "name": "lobster-logview",
   "version": "1.0.1",
-  "main": "lib/components/LogView/index.js",
-  "types": "lib/components/LogView/index.d.ts",
+  "main": "lib/LobsterLogView.js",
   "engines": {
     "node": ">=8.6"
   },

@@ -4,10 +4,13 @@ import React from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { Provider } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
 import { lobster } from './reducers';
 import rootSaga from './sagas';
 import urlParse from './sagas/urlParse';
-import App from './components/App';
+import EvergreenLogViewer from './components/Fetch/EvergreenLogViewer';
+import LogkeeperLogViewer from './components/Fetch/LogkeeperLogViewer';
+import type { Line } from 'src/models';
 import { logger } from 'redux-logger';
 import { isProd } from './config';
 import './index.css';
@@ -29,10 +32,43 @@ const store = createStore(lobster, applyMiddleware(...middlewares));
 saga.run(urlParse);
 saga.run(rootSaga);
 
-const LobsterLogView = () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
+const logviewer = (props) => (<LogkeeperLogViewer {...props} />);
+const evergreenLogviewer = (props) => (<EvergreenLogViewer {...props} />);
+
+const Main = () => (
+  <main className="lobster">
+    <Switch>
+      <Route path="/lobster/build/:build/test/:test" render={logviewer} />
+      <Route path="/lobster/build/:build/all" render={logviewer} />
+      <Route exact path="/lobster/evergreen/task/:id/:execution/:type" render={evergreenLogviewer} />
+      <Route exact path="/lobster/evergreen/test/:id" render={evergreenLogviewer} />
+      <Route exact path="/lobster/evergreen/test/:id/:execution/:type" render={evergreenLogviewer} />
+      <Route path="/lobster/logdrop" render={logviewer} />
+    </Switch>
+  </main>
 );
 
-export default LobsterLogView;
+type Props = {
+  url: string
+};
+
+type State = {
+  lines: Line[],
+};
+
+export default class LobsterLogView extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      lines: []
+    };
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <Main />
+      </Provider>
+    );
+  }
+}

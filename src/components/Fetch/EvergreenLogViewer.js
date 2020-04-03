@@ -3,7 +3,10 @@
 import React from 'react';
 import Fetch from '.';
 import { stringToEvergreenTaskLogType, type LogIdentity } from '../../models';
-import type { ContextRouter } from 'react-router-dom';
+
+type Props = {
+  url: string
+}
 
 function makeEvergreenLogID(isTest: boolean, id: ?string, type: ?string, execution: ?string): ?LogIdentity {
   if (id == null) {
@@ -39,17 +42,13 @@ function makeEvergreenLogID(isTest: boolean, id: ?string, type: ?string, executi
 
 const lineRegex = new RegExp('#L([0-9]+)');
 
-const EvergreenLogViewer = (props: ContextRouter) => {
-  const newProps = Object.assign({}, props);
-  const matches = lineRegex.exec(props.location.hash);
-  if (matches && matches.length > 1) {
-    const line = matches[1];
-    newProps.location.hash = `#scroll=${line}&bookmarks=${line}`;
-  }
-  const { id, type, execution } = props.match.params;
-  const logID = makeEvergreenLogID(props.location.pathname.startsWith('/lobster/evergreen/test/'), id, type, execution);
+const EvergreenLogViewer = (props: Props) => {
+  const id = '5e8542d697b1d36007511cfa';
+  const type = null;
+  const execution = '0';
+  const logID = makeEvergreenLogID(false, id, type, execution);
 
-  return (<Fetch {...newProps} logIdentity={logID} />);
+  return (<Fetch logIdentity={logID} />);
 };
 
 export default EvergreenLogViewer;

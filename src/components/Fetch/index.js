@@ -11,13 +11,12 @@ import Toolbar from './Toolbar';
 import * as selectors from '../../selectors';
 import type { Dispatch } from 'redux';
 import type { ReduxState, LogIdentity, Line } from '../../models';
-import type { ContextRouter } from 'react-router-dom';
 
 type Props = {
   lines: Line[],
   logIdentity: ?LogIdentity,
   loadLogByIdentity: (LogIdentity) => void
-} & ContextRouter
+}
 
 export class Fetch extends React.PureComponent<Props> {
   constructor(props: Props) {

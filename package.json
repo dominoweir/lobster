@@ -25,7 +25,6 @@
     "react-router-bootstrap": "^0.24.4",
     "react-router-dom": "^5.1.0",
     "react-scripts": "1.1.4",
-    "react-toggle-button": "^2.2.0",
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
@@ -37,7 +36,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npx webpack --config webpack.config.js",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "test:ci": "react-scripts test --testResultsProcessor=./reporter --env=jsdom",
     "test:e2e": "node ./e2e.js",
@@ -48,10 +47,9 @@
     "eslint": "eslint --ext .js,.jsx",
     "debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
     "generate-tasks": "node generate-tasks.js",
-    "build-babel": "babel src -d lib"
+    "webpack": "npx webpack --config webpack.config.js"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/plugin-transform-flow-strip-types": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
@@ -59,7 +57,6 @@
     "@babel/preset-typescript": "^7.9.0",
     "babel-eslint": "^8.2.6",
     "babel-loader": "^8.1.0",
-    "babel-plugin-transform-assets": "^1.0.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "css-loader": "^3.4.2",
     "enzyme": "^3.3.0",
@@ -118,16 +115,7 @@
     ],
     "plugins": [
       "babel-plugin-transform-class-properties",
-      "@babel/plugin-transform-flow-strip-types",
-      [
-        "babel-plugin-transform-assets",
-        {
-          "extensions": [
-            "css"
-          ],
-          "name": "[name].[ext]?[sha512:hash:base64:7]"
-        }
-      ]
+      "@babel/plugin-transform-flow-strip-types"
     ]
   }
 }

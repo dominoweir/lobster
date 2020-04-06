@@ -84,16 +84,16 @@ const EvergreenLogViewer = (props: Props) => {
     let type = null;
     let execution = null;
     let isTest = false;
-    if (route[3] === 'test_log') {
-      isTest = true;
-      id = route[4].split('?')[0];
-    } else if (route[3] === 'task_log_raw') {
+    if (route[3] === 'task_log_raw') {
       id = route[4];
       execution = route[5].split('?')[0];
       type = route[5]
         .split('?')[1]
         .split('=')[1]
         .split('&')[0];
+    } else {
+      isTest = true;
+      id = route[4].split('?')[0];
     }
     logID = makeEvergreenLogID(isTest, id, type, execution);
   }

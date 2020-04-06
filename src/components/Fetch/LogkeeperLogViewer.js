@@ -54,7 +54,6 @@ const LogkeeperLogViewer = (props: Props) => {
     logID = makeLogkeeperLogID(build, test, server, url);
   } else {
     const route = props.url.split('/');
-    console.log(route);
     const server = null;
     const url = null;
     const build = route[6];

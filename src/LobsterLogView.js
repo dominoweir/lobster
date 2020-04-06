@@ -11,6 +11,7 @@ import { logger } from 'redux-logger';
 import { isProd } from './config';
 import './index.css';
 import EvergreenLogViewer from './components/Fetch/EvergreenLogViewer';
+import LogkeeperLogViewer from './components/Fetch/LogkeeperLogViewer';
 
 const saga = createSagaMiddleware();
 const middlewares = [saga];
@@ -27,9 +28,14 @@ type Props = {
 };
 
 function LobsterLogView(props: Props) {
+  const isEvergreenLog = props.url.split('/')[2].includes('evergreen');
   return (
     <Provider store={store}>
-      <EvergreenLogViewer url={props.url} />
+      {isEvergreenLog ? (
+        <EvergreenLogViewer url={props.url} />
+      ) : (
+        <LogkeeperLogViewer url={props.url} />
+      )}
     </Provider>
   );
 }

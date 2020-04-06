@@ -35,6 +35,9 @@
 }
 
 .log-list {
+  overflow-x: scroll;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .main {

@@ -12,7 +12,12 @@ type URLProps = {
 
 type Props = URLProps | ContextRouter;
 
-function makeLogkeeperLogID(build: ?string, test: ?string, server: ?string, url: ?string): ?LogIdentity {
+function makeLogkeeperLogID(
+  build: ?string,
+  test: ?string,
+  server: ?string,
+  url: ?string
+): ?LogIdentity {
   if (server != null && url != null) {
     return {
       type: 'lobster',
@@ -42,12 +47,14 @@ function makeLogkeeperLogID(build: ?string, test: ?string, server: ?string, url:
 const LogkeeperLogViewer = (props: Props) => {
   let logID = {};
   if (props.url === undefined) {
-    const { server, url } = queryString.parse(props.location.search === '' ? props.location.hash : props.location.search);
+    const { server, url } = queryString.parse(
+      props.location.search === '' ? props.location.hash : props.location.search
+    );
     const { build, test } = props.match.params;
     logID = makeLogkeeperLogID(build, test, server, url);
   } else {
     const route = props.url.split('/');
-    console.log(route)
+    console.log(route);
     const server = null;
     const url = null;
     const build = route[6];
@@ -55,7 +62,7 @@ const LogkeeperLogViewer = (props: Props) => {
     logID = makeLogkeeperLogID(build, test, server, url);
   }
 
-  return (<Fetch logIdentity={logID} />);
+  return <Fetch logIdentity={logID} />;
 };
 
 export default LogkeeperLogViewer;

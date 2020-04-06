@@ -2,7 +2,11 @@
 
 import React from 'react';
 import Fetch from '.';
-import { stringToEvergreenTaskLogType, type LogIdentity, typeIsTaskLogType } from '../../models';
+import {
+  stringToEvergreenTaskLogType,
+  type LogIdentity,
+  typeIsTaskLogType
+} from '../../models';
 import type { ContextRouter } from 'react-router-dom';
 
 type URLProps = {
@@ -11,7 +15,12 @@ type URLProps = {
 
 type Props = URLProps | ContextRouter;
 
-function makeEvergreenLogID(isTest: boolean, id: ?string, type: ?string, execution: ?string): ?LogIdentity {
+function makeEvergreenLogID(
+  isTest: boolean,
+  id: ?string,
+  type: ?string,
+  execution: ?string
+): ?LogIdentity {
   if (id == null) {
     return null;
   }
@@ -26,7 +35,6 @@ function makeEvergreenLogID(isTest: boolean, id: ?string, type: ?string, executi
       };
     }
     if (!typeIsTaskLogType(type)) {
-      console.log('wrong path')
       const logType = stringToEvergreenTaskLogType(type);
       if (logType == null) {
         return null;
@@ -64,7 +72,12 @@ const EvergreenLogViewer = (props: Props) => {
       newProps.location.hash = `#scroll=${line}&bookmarks=${line}`;
     }
     const { id, type, execution } = props.match.params;
-    logID = makeEvergreenLogID(props.location.pathname.startsWith('/lobster/evergreen/test/'), id, type, execution);
+    logID = makeEvergreenLogID(
+      props.location.pathname.startsWith('/lobster/evergreen/test/'),
+      id,
+      type,
+      execution
+    );
   } else {
     const route = props.url.split('/');
     let id = null;
@@ -77,12 +90,15 @@ const EvergreenLogViewer = (props: Props) => {
     } else if (route[3] === 'task_log_raw') {
       id = route[4];
       execution = route[5].split('?')[0];
-      type = route[5].split('?')[1].split('=')[1].split('&')[0];
+      type = route[5]
+        .split('?')[1]
+        .split('=')[1]
+        .split('&')[0];
     }
     logID = makeEvergreenLogID(isTest, id, type, execution);
   }
 
-  return (<Fetch logIdentity={logID} />);
+  return <Fetch logIdentity={logID} />;
 };
 
 export default EvergreenLogViewer;

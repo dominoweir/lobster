@@ -2,11 +2,14 @@
 
 import React from 'react';
 import Fetch from '.';
-import { stringToEvergreenTaskLogType, type LogIdentity } from '../../models';
+import { stringToEvergreenTaskLogType, type LogIdentity, typeIsTaskLogType } from '../../models';
+import type { ContextRouter } from 'react-router-dom';
 
-type Props = {
+type URLProps = {
   url: string
-}
+};
+
+type Props = URLProps | ContextRouter;
 
 function makeEvergreenLogID(isTest: boolean, id: ?string, type: ?string, execution: ?string): ?LogIdentity {
   if (id == null) {
@@ -22,15 +25,24 @@ function makeEvergreenLogID(isTest: boolean, id: ?string, type: ?string, executi
         test: type
       };
     }
-    const logType = stringToEvergreenTaskLogType(type);
-    if (logType == null) {
-      return null;
+    if (!typeIsTaskLogType(type)) {
+      console.log('wrong path')
+      const logType = stringToEvergreenTaskLogType(type);
+      if (logType == null) {
+        return null;
+      }
+      return {
+        type: 'evergreen-task',
+        id: id,
+        execution: parseInt(execution, 10) || 0,
+        log: logType
+      };
     }
     return {
       type: 'evergreen-task',
       id: id,
       execution: parseInt(execution, 10) || 0,
-      log: logType
+      log: type
     };
   }
 
@@ -43,10 +55,32 @@ function makeEvergreenLogID(isTest: boolean, id: ?string, type: ?string, executi
 const lineRegex = new RegExp('#L([0-9]+)');
 
 const EvergreenLogViewer = (props: Props) => {
-  const id = '5e8541ac9dbe3228b5a3cbc2';
-  const type = null;
-  const execution = '0';
-  const logID = makeEvergreenLogID(false, id, type, execution);
+  let logID = {};
+  if (props.url === undefined) {
+    const newProps = Object.assign({}, props);
+    const matches = lineRegex.exec(props.location.hash);
+    if (matches && matches.length > 1) {
+      const line = matches[1];
+      newProps.location.hash = `#scroll=${line}&bookmarks=${line}`;
+    }
+    const { id, type, execution } = props.match.params;
+    logID = makeEvergreenLogID(props.location.pathname.startsWith('/lobster/evergreen/test/'), id, type, execution);
+  } else {
+    const route = props.url.split('/');
+    let id = null;
+    let type = null;
+    let execution = null;
+    let isTest = false;
+    if (route[3] === 'test_log') {
+      isTest = true;
+      id = route[4].split('?')[0];
+    } else if (route[3] === 'task_log_raw') {
+      id = route[4];
+      execution = route[5].split('?')[0];
+      type = route[5].split('?')[1].split('=')[1].split('&')[0];
+    }
+    logID = makeEvergreenLogID(isTest, id, type, execution);
+  }
 
   return (<Fetch logIdentity={logID} />);
 };

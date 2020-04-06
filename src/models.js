@@ -173,6 +173,7 @@ const evergreenTaskLogTypes: { [string]: string } = {
   'system': 'S'
   // 'event': '?' // Not actually supported by the api
 };
+const evergreenTaskLogKeys = ['ALL', 'T', 'E', 'S'];
 
 export type EvergreenTaskLogType = $Keys<typeof evergreenTaskLogTypes>;
 
@@ -181,6 +182,13 @@ export function stringToInteralEvergreenTaskLogType(a: ?string): ?string {
     return null;
   }
   return evergreenTaskLogTypes[a];
+}
+
+export function typeIsTaskLogType(a: ?string): boolean {
+  if (a == null || !(evergreenTaskLogKeys.includes(a))) {
+    return false;
+  }
+  return true;
 }
 
 export function stringToEvergreenTaskLogType(a: ?string): ?EvergreenTaskLogType {

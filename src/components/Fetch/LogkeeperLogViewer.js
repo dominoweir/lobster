@@ -3,10 +3,14 @@
 import React from 'react';
 import Fetch from '.';
 import type { LogIdentity } from '../../models';
+import type { ContextRouter } from 'react-router-dom';
+import queryString from '../../thirdparty/query-string';
 
-type Props = {
+type URLProps = {
   url: string
-}
+};
+
+type Props = URLProps | ContextRouter;
 
 function makeLogkeeperLogID(build: ?string, test: ?string, server: ?string, url: ?string): ?LogIdentity {
   if (server != null && url != null) {
@@ -36,12 +40,20 @@ function makeLogkeeperLogID(build: ?string, test: ?string, server: ?string, url:
 }
 
 const LogkeeperLogViewer = (props: Props) => {
-  const server = null
-  const url = null
-  const build = 'f889d33f8a0914582fdc4b655a9334df'
-  const test = '5e83d544f84ae874fb20978f'
-
-  const logID = makeLogkeeperLogID(build, test, server, url);
+  let logID = {};
+  if (props.url === undefined) {
+    const { server, url } = queryString.parse(props.location.search === '' ? props.location.hash : props.location.search);
+    const { build, test } = props.match.params;
+    logID = makeLogkeeperLogID(build, test, server, url);
+  } else {
+    const route = props.url.split('/');
+    console.log(route)
+    const server = null;
+    const url = null;
+    const build = route[6];
+    const test = route[8];
+    logID = makeLogkeeperLogID(build, test, server, url);
+  }
 
   return (<Fetch logIdentity={logID} />);
 };

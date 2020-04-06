@@ -63,7 +63,6 @@ function makeEvergreenLogID(
 const lineRegex = new RegExp('#L([0-9]+)');
 
 const EvergreenLogViewer = (props: Props) => {
-  let logID = {};
   if (props.url === undefined) {
     const newProps = Object.assign({}, props);
     const matches = lineRegex.exec(props.location.hash);
@@ -72,13 +71,14 @@ const EvergreenLogViewer = (props: Props) => {
       newProps.location.hash = `#scroll=${line}&bookmarks=${line}`;
     }
     const { id, type, execution } = props.match.params;
-    logID = makeEvergreenLogID(
+    const logID = makeEvergreenLogID(
       props.location.pathname.startsWith('/lobster/evergreen/test/'),
       id,
       type,
       execution
     );
-  } else {
+    return <Fetch {...newProps} logIdentity={logID} />;
+  }
     const route = props.url.split('/');
     let id = null;
     let type = null;
@@ -95,10 +95,8 @@ const EvergreenLogViewer = (props: Props) => {
       isTest = true;
       id = route[4].split('?')[0];
     }
-    logID = makeEvergreenLogID(isTest, id, type, execution);
-  }
-
-  return <Fetch logIdentity={logID} />;
+    const logID = makeEvergreenLogID(isTest, id, type, execution);
+    return <Fetch logIdentity={logID} />;
 };
 
 export default EvergreenLogViewer;

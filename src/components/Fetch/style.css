@@ -26,18 +26,7 @@
     margin-top: 15px;
 }
 
-.collapse {
-  display: none;
-}
-
-.collapse.in {
-  display: block;
-}
-
 .log-list {
-  overflow-x: scroll;
-  overflow-y: auto;
-  height: 100%;
 }
 
 .main {
@@ -45,6 +34,7 @@
 }
 
 .find-box {
+    position: fixed;
     top: 0px;
     padding-bottom: 5px;
     padding-top: 5px;
@@ -128,7 +118,6 @@
 
 .filter-header {
     margin-bottom: 0px;
-    display: inline-flex;
 }
 
 .not-found {

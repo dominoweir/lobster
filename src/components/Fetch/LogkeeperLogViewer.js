@@ -45,21 +45,18 @@ function makeLogkeeperLogID(
 }
 
 const LogkeeperLogViewer = (props: Props) => {
-  let logID = {};
   if (props.url === undefined) {
     const { server, url } = queryString.parse(
       props.location.search === '' ? props.location.hash : props.location.search
     );
     const { build, test } = props.match.params;
-    logID = makeLogkeeperLogID(build, test, server, url);
-  } else {
-    const route = props.url.split('/');
-    const server = null;
-    const url = null;
-    const build = route[6];
-    const test = route[8];
-    logID = makeLogkeeperLogID(build, test, server, url);
+    const logID = makeLogkeeperLogID(build, test, server, url);
+    return <Fetch {...props} logIdentity={logID} />;
   }
+  const route = props.url.split('/');
+  const build = route[6];
+  const test = route[8];
+  const logID = makeLogkeeperLogID(build, test, null, null);
 
   return <Fetch logIdentity={logID} />;
 };

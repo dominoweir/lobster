@@ -144,6 +144,7 @@ export class Toolbar extends React.PureComponent<Props> {
 
   render() {
     return (
+      <Col lg={11} lgOffset={1}>
         <div className="find-box">
           <Form horizontal>
             <FormGroup controlId="findInput" className="filter-header" validationState={this.regexValidationState()}>
@@ -177,6 +178,7 @@ export class Toolbar extends React.PureComponent<Props> {
           </Form>
           <CollapseMenu />
         </div>
+      </Col>
     );
   }
 }

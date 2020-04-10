@@ -17,7 +17,7 @@ type Props = {
   lines: Line[],
   logIdentity: ?LogIdentity,
   loadLogByIdentity: (LogIdentity) => void
-} & ContextRouter;
+} & ContextRouter
 
 export class Fetch extends React.PureComponent<Props> {
   constructor(props: Props) {

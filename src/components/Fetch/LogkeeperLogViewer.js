@@ -6,18 +6,11 @@ import type { LogIdentity } from '../../models';
 import type { ContextRouter } from 'react-router-dom';
 import queryString from '../../thirdparty/query-string';
 
-type URLProps = {
+type Props = {
   url: string
-};
+} | ContextRouter;
 
-type Props = URLProps | ContextRouter;
-
-function makeLogkeeperLogID(
-  build: ?string,
-  test: ?string,
-  server: ?string,
-  url: ?string
-): ?LogIdentity {
+function makeLogkeeperLogID(build: ?string, test: ?string, server: ?string, url: ?string): ?LogIdentity {
   if (server != null && url != null) {
     return {
       type: 'lobster',

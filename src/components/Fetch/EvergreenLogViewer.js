@@ -9,18 +9,11 @@ import {
 } from '../../models';
 import type { ContextRouter } from 'react-router-dom';
 
-type URLProps = {
+type Props = {
   url: string
-};
+} | ContextRouter;
 
-type Props = URLProps | ContextRouter;
-
-function makeEvergreenLogID(
-  isTest: boolean,
-  id: ?string,
-  type: ?string,
-  execution: ?string
-): ?LogIdentity {
+function makeEvergreenLogID(isTest: boolean, id: ?string, type: ?string, execution: ?string): ?LogIdentity {
   if (id == null) {
     return null;
   }
@@ -71,12 +64,7 @@ const EvergreenLogViewer = (props: Props) => {
       newProps.location.hash = `#scroll=${line}&bookmarks=${line}`;
     }
     const { id, type, execution } = props.match.params;
-    const logID = makeEvergreenLogID(
-      props.location.pathname.startsWith('/lobster/evergreen/test/'),
-      id,
-      type,
-      execution
-    );
+    const logID = makeEvergreenLogID(props.location.pathname.startsWith('/lobster/evergreen/test/'), id, type, execution);
     return <Fetch {...newProps} logIdentity={logID} />;
   }
     const route = props.url.split('/');

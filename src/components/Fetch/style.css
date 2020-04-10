@@ -31,6 +31,11 @@
 
 .main {
     margin-left: 65px;
+    padding-top: 45px;
+}
+
+.form-search {
+  float: left;
 }
 
 .find-box {
@@ -41,8 +46,7 @@
     background-color: white;
     z-index: 50;
     display: inline-block;
-    width: 87vw;
-
+    width: 100%;
 }
 
 .toggle-buttons {

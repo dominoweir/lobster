@@ -10,6 +10,7 @@ import urlParse from './sagas/urlParse';
 import { logger } from 'redux-logger';
 import { isProd } from './config';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import EvergreenLogViewer from './components/Fetch/EvergreenLogViewer';
 import LogkeeperLogViewer from './components/Fetch/LogkeeperLogViewer';
 

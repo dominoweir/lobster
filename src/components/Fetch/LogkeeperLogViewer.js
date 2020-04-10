@@ -6,9 +6,7 @@ import type { LogIdentity } from '../../models';
 import type { ContextRouter } from 'react-router-dom';
 import queryString from '../../thirdparty/query-string';
 
-type Props = {
-  url: string
-} | ContextRouter;
+type Props = { url: string } | ContextRouter;
 
 function makeLogkeeperLogID(build: ?string, test: ?string, server: ?string, url: ?string): ?LogIdentity {
   if (server != null && url != null) {

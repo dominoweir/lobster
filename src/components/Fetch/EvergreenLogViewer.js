@@ -9,9 +9,7 @@ import {
 } from '../../models';
 import type { ContextRouter } from 'react-router-dom';
 
-type Props = {
-  url: string
-} | ContextRouter;
+type Props = { url: string } | ContextRouter;
 
 function makeEvergreenLogID(isTest: boolean, id: ?string, type: ?string, execution: ?string): ?LogIdentity {
   if (id == null) {

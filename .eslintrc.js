@@ -147,7 +147,7 @@ module.exports = {
     'react/self-closing-comp': [2, { 'html': false, 'component': true }],
     'react/jsx-first-prop-new-line': [2, 'multiline'],
     'react/no-this-in-sfc': 2,
-    'react/require-optimization': 0,
+    'react/require-optimization': 2,
     'react/no-access-state-in-setstate': 2,
     'react/require-default-props': 2,
 

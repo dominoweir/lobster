@@ -2,6 +2,7 @@
   "name": "lobster-logview",
   "version": "1.0.1",
   "main": "lib/bundle.js",
+  "repository": {"url": "https://github.com/evergreen-ci/lobster"},
   "engines": {
     "node": ">=8.6"
   },
